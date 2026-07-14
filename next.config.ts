@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_GITHUB_OWNER: process.env.NEXT_PUBLIC_GITHUB_OWNER ?? 'psgmx',
     NEXT_PUBLIC_GITHUB_REPO:  process.env.NEXT_PUBLIC_GITHUB_REPO  ?? 'engineering-readiness',
   },
+  outputFileTracingIncludes: {
+    '/**/*': ['./*.json', './students/**/*', './activities/**/*'],
+  },
 }
 
 export default nextConfig

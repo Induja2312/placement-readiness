@@ -8,6 +8,8 @@
  * This module is server-only (no 'use client').
  */
 
+import { promises as fs } from 'fs'
+import path from 'path'
 import type {
   Roster,
   Scoreboard,
@@ -18,24 +20,16 @@ import type {
   ActivityDay,
 } from './types'
 
-const OWNER = process.env.NEXT_PUBLIC_GITHUB_OWNER ?? 'psgmx'
-const REPO  = process.env.NEXT_PUBLIC_GITHUB_REPO  ?? 'engineering-readiness'
-const BRANCH = 'main'
+// ── Local fetch helpers ───────────────────────────────────────────────────────
 
-// ── Raw fetch helpers ─────────────────────────────────────────────────────────
-
-function rawUrl(path: string): string {
-  return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${path}`
-}
-
-async function fetchJSON<T>(path: string): Promise<T> {
-  const res = await fetch(rawUrl(path), {
-    next: { revalidate: 60 },
-  })
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`)
+async function fetchJSON<T>(filePath: string): Promise<T> {
+  try {
+    const fullPath = path.join(process.cwd(), filePath)
+    const fileContents = await fs.readFile(fullPath, 'utf8')
+    return JSON.parse(fileContents) as T
+  } catch (error) {
+    throw new Error(`Failed to read local file ${filePath}: ${error instanceof Error ? error.message : String(error)}`)
   }
-  return res.json() as Promise<T>
 }
 
 // ── Base data loaders ─────────────────────────────────────────────────────────
@@ -195,38 +189,15 @@ export function buildActivityDays(
   })
 }
 
-// ── On-demand: fetch individual markdown files ─────────────────────────────────
-
-interface GitHubContentsResponse {
-  content: string
-  encoding: string
-  name: string
-}
-
 /**
- * Fetch a single file's content via the GitHub Contents API.
- * Used for student profile pages — never bulk-called.
+ * Read a single markdown file's content from the local filesystem.
  */
-export async function fetchMarkdownFile(path: string): Promise<string | null> {
-  const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`
-
-  const res = await fetch(apiUrl, {
-    headers: {
-      Accept: 'application/vnd.github.v3+json',
-      ...(process.env.GITHUB_TOKEN
-        ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
-        : {}),
-    },
-    next: { revalidate: 300 }, // 5-minute cache for individual files
-  })
-
-  if (res.status === 404) return null
-  if (!res.ok) return null
-
-  const data: GitHubContentsResponse = await res.json()
-  if (data.encoding !== 'base64') return null
-
-  // Decode base64 content (GitHub API always returns base64)
-  const decoded = Buffer.from(data.content.replace(/\n/g, ''), 'base64').toString('utf8')
-  return decoded
+export async function fetchMarkdownFile(filePath: string): Promise<string | null> {
+  try {
+    const fullPath = path.join(process.cwd(), filePath)
+    const content = await fs.readFile(fullPath, 'utf8')
+    return content
+  } catch {
+    return null
+  }
 }
