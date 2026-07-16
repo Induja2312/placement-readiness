@@ -105,19 +105,19 @@ Done! The automatic check will run immediately. If it passes (green tick), your 
 
 ---
 
-## ⚠️ IMPORTANT: Only edit your own folders
+## ⚠️ IMPORTANT: STRICT FOLDER RULES
 
 **Only edit files inside:**
-- `students/{rollnumber}/` — your profile folder
-- `activities/dayXX/{rollnumber}/` — your submission for each day
+- `activities/YYYY-MM-DD/{rollnumber}/` — your submission for each day
 
 **Do NOT edit:**
-- `scoreboard.json`, `attendance.json`, `teams.json`, `students/roster.json`
+- `scoreboard.json`, `attendance.json`, `teams.json`, `data/roster.json`
 - Files inside `_template/` folders
-- `.github/`, `scripts/`, `website/`, or any other student's folder
+- `.github/`, `scripts/`, `app/`, `components/`, `lib/`, or any other student's folder
 - The root `README.md`
+- Do NOT touch anything outside your specific `activities/` folder for that day.
 
-If your PR touches any of these files, the automatic check will reject it. The placement rep will not merge it manually.
+**If your PR touches any of these restricted files, the automatic GitHub check will reject it immediately, and the placement rep will NOT merge it.**
 
 ---
 

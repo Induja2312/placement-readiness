@@ -1,0 +1,50 @@
+name: Daily Recalculate & Deploy
+
+on:
+  schedule:
+    # Runs at 18:30 UTC every day (which is exactly midnight 00:00 IST)
+    - cron: '30 18 * * *'
+  workflow_dispatch: # Allows manual trigger from the GitHub UI
+
+jobs:
+  daily-refresh:
+    name: Daily Refresh
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Recalculate scores
+        run: node scripts/recalculate-scores.mjs
+
+      - name: Regenerate README leaderboard
+        run: node scripts/generate-readme.mjs
+
+      - name: Commit regenerated files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add data/scoreboard.json data/attendance.json data/teams.json README.md
+          
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: daily score recalculation"
+            if ! git push origin main; then
+              echo "❌ Failed to push to main. Check branch protection rules."
+              exit 1
+            fi
+            echo "✅ Committed and pushed updated files."
+          fi

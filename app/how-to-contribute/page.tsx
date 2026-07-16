@@ -48,13 +48,13 @@ export default async function HowToContributePage() {
             <div className="flex items-center gap-2">
               <span className="text-gray-600">3.</span>
               <code className="bg-gray-800 text-gray-200 px-2 py-1 rounded flex-1">
-                {'# Create your files in activities/dayXX/25mxYYY/'}
+                {'# Create your files in activities/YYYY-MM-DD/25mxYYY/'}
               </code>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-gray-600">4.</span>
               <code className="bg-gray-800 text-gray-200 px-2 py-1 rounded flex-1">
-                git add . &amp;&amp; git commit -m &quot;2026-07-11: 25mx301 submission&quot;
+                git add . &amp;&amp; git commit -m &quot;2026-07-16: 25mx301 submission&quot;
               </code>
             </div>
             <div className="flex items-center gap-2">
@@ -71,11 +71,10 @@ export default async function HowToContributePage() {
           <div className="flex items-start gap-2">
             <span className="text-yellow-400 mt-0.5">⚠️</span>
             <div>
-              <p className="text-yellow-400 font-bold text-sm">Only edit YOUR folders</p>
+              <p className="text-yellow-400 font-bold text-sm">Strict Rule: Only edit YOUR folders</p>
               <p className="text-yellow-500/80 text-sm mt-0.5">
-                Only edit files inside <code className="font-mono bg-yellow-500/10 px-1 rounded">students/{'{rollnumber}'}/ </code>
-                and <code className="font-mono bg-yellow-500/10 px-1 rounded">activities/dayXX/{'{rollnumber}'}/</code>.
-                Editing anything else will fail the automatic check.
+                Only edit files inside <code className="font-mono bg-yellow-500/10 px-1 rounded">activities/YYYY-MM-DD/{'{rollnumber}'}/</code>.
+                Editing anything else (like the root folder or lib/) will automatically reject your Pull Request.
               </p>
             </div>
           </div>
@@ -108,13 +107,11 @@ export default async function HowToContributePage() {
               <p>Replace <code className="font-mono bg-[#050505] border border-slate-800 px-1 rounded">&lt;your-username&gt;</code> with your actual GitHub username.</p>
 
               <h2 className="text-xl font-bold text-white">Step 3: Create your files</h2>
-              <p>For Day 1, create: <code className="font-mono bg-[#050505] border border-slate-800 px-1 rounded">students/25mxXXX/profile.md</code> (your roll number).</p>
-              <p>For Day 2+, create files in: <code className="font-mono bg-[#050505] border border-slate-800 px-1 rounded">activities/dayXX/25mxXXX/</code></p>
-              <p>Copy the template files from <code className="font-mono bg-[#050505] border border-slate-800 px-1 rounded">activities/dayXX/_template/</code> as a starting point.</p>
+              <p>For each day, create files in: <code className="font-mono bg-[#050505] border border-slate-800 px-1 rounded">activities/YYYY-MM-DD/25mxXXX/</code></p>
 
               <h2 className="text-xl font-bold text-white">Step 4: Commit and push</h2>
               <pre className="bg-[#050505] border border-slate-800 rounded-lg p-4 overflow-x-auto text-sm font-mono text-slate-200">
-                {`git add .\ngit commit -m "2026-07-11: 25mx301 submission"\ngit push origin main`}
+                {`git add .\ngit commit -m "2026-07-16: 25mx301 submission"\ngit push origin main`}
               </pre>
 
               <h2 className="text-xl font-bold text-white">Step 5: Open a Pull Request</h2>

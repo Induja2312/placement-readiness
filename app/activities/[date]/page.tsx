@@ -5,7 +5,7 @@ import {
   getAllData,
   buildActivityDays,
 } from '@/lib/data'
-import { getMission } from '@/lib/missions'
+import { getMission, isMissionUnlocked } from '@/lib/missions'
 
 interface Props {
   params: Promise<{ date: string }>
@@ -31,8 +31,21 @@ export default async function ActivityDetailPage({ params }: Props) {
   const { roster, attendance } = await getAllData()
   const activityDays = buildActivityDays(roster, attendance)
 
-  const activityDay = activityDays.find(d => d.id === date)
-  if (!activityDay) notFound()
+  if (!isMissionUnlocked(date)) notFound()
+
+  let activityDay = activityDays.find(d => d.id === date)
+  if (!activityDay) {
+    if (!getMission(date)) notFound()
+    activityDay = {
+      id: date,
+      label: new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+      submissionCount: 0,
+      totalStudents: Object.keys(roster).length,
+      submissionRate: 0,
+      submitters: [],
+      nonSubmitters: Object.keys(roster),
+    }
+  }
 
   const mission = getMission(date)
   const label = new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })

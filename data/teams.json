@@ -21,7 +21,7 @@
       "25mx203"
     ],
     "averageScore": 45,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   },
   "team1": {
@@ -46,7 +46,7 @@
       "25mx210"
     ],
     "averageScore": 45.8,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   },
   "team6": {
@@ -71,7 +71,7 @@
       "25mx224"
     ],
     "averageScore": 45.8,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   },
   "team3": {
@@ -96,7 +96,7 @@
       "25mx218"
     ],
     "averageScore": 45,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   },
   "team5": {
@@ -121,7 +121,7 @@
       "25mx221"
     ],
     "averageScore": 45,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   },
   "team7": {
@@ -143,7 +143,7 @@
       "25mx112"
     ],
     "averageScore": 45,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   },
   "team4": {
@@ -168,7 +168,7 @@
       "25mx226"
     ],
     "averageScore": 45,
-    "attendanceRate": 25,
+    "attendanceRate": 4.1,
     "helpingBonus": 0
   }
 }

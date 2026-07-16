@@ -80,10 +80,22 @@ const days = listDirs(activitiesDir).sort(); // e.g. ['2026-07-10', '2026-07-11'
 
 // Map: day → Set of roll numbers who submitted
 const submittedByDay = {};
+
+// Ensure July 16 Foundation Day is always processed even if it has no activity folder
+if (!days.includes('2026-07-16')) {
+  days.push('2026-07-16');
+  days.sort();
+}
+
 for (const day of days) {
-  const dayDir = join(activitiesDir, day);
-  const submitters = listDirs(dayDir); // roll-number-named folders
-  submittedByDay[day] = new Set(submitters.filter(r => roster[r]));
+  if (day === '2026-07-16') {
+    const submitters = Object.keys(roster).filter(r => existsSync(resolve(ROOT, `students/${r}/profile.md`)));
+    submittedByDay[day] = new Set(submitters);
+  } else {
+    const dayDir = join(activitiesDir, day);
+    const submitters = listDirs(dayDir); // roll-number-named folders
+    submittedByDay[day] = new Set(submitters.filter(r => roster[r]));
+  }
 }
 
 console.log('\n📊 Recalculating scores...\n');
@@ -128,7 +140,7 @@ for (const roll of Object.keys(roster)) {
     // quality / reflection / prompting: default to 5 if newly submitted and not yet graded
     const quality     = submitted > 0 ? (prev.quality     ?? 5) : 0;
     const reflection  = submitted > 0 ? (prev.reflection  ?? 5) : 0;
-    const prompting   = day === '2026-07-10' ? 0 : (submitted > 0 ? (prev.prompting ?? 5) : 0);
+    const prompting   = day === '2026-07-17' || day === '2026-07-16' ? 0 : (submitted > 0 ? (prev.prompting ?? 5) : 0);
 
     byDay[day] = { submitted, quality, reflection, prompting, documentation };
   }

@@ -109,8 +109,8 @@ for (const day of daysInPR) {
 
   const required = ['README.md'];
 
-  // 2026-07-15 is foundation/profile day — no reflection/prompts required
-  if (day !== '2026-07-15') {
+  // 2026-07-16 is foundation/profile day — no reflection/prompts required
+  if (day !== '2026-07-16') {
     required.push('reflection.md', 'prompts.md');
   }
 
@@ -130,7 +130,7 @@ for (const day of daysInPR) {
         }
       }
       // README section header check (Day 1+)
-      if (req === 'README.md' && day === '2026-07-10') {
+      if (req === 'README.md' && day === '2026-07-17') {
         const content = readFileSync(absReq, 'utf8');
         if (!content.includes('Roll Number') && !content.includes('roll number') && !content.includes('rollnumber')) {
           errors.push(`⚠️  Day 1 README.md should include your roll number. Please fill in the template fields.`);

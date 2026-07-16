@@ -4,7 +4,7 @@ import {
   getAllData,
   buildActivityDays,
 } from '@/lib/data'
-import { getMission, MISSIONS_DATA, WEEK_THEMES } from '@/lib/missions'
+import { getMission, MISSIONS_DATA, WEEK_THEMES, isMissionUnlocked } from '@/lib/missions'
 
 export const metadata: Metadata = {
   title: 'Mission Control',
@@ -21,7 +21,7 @@ export default async function ActivitiesPage() {
   const activityByDate = Object.fromEntries(activityDays.map(d => [d.id, d]))
 
   // Group missions by week
-  const weeks = ([1, 2, 3, 4] as const).map(week => ({
+  const weeks = ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const).map(week => ({
     week,
     info: WEEK_THEMES[week],
     missions: MISSIONS_DATA.filter(m => m.week === week),
@@ -114,10 +114,11 @@ export default async function ActivitiesPage() {
               const dateObj = new Date(mission.date)
               const dayNum  = dateObj.getDate()
               const monthAbbr = dateObj.toLocaleString('default', { month: 'short' })
+              const unlocked = isMissionUnlocked(mission.date)
 
               return (
                 <div key={mission.date}>
-                  {isComplete ? (
+                  {unlocked ? (
                     <Link href={`/activities/${mission.date}`}>
                       <div className="card-hover flex flex-col sm:flex-row sm:items-center gap-4 cursor-pointer">
                         <MissionCard
@@ -126,15 +127,15 @@ export default async function ActivitiesPage() {
                           monthAbbr={monthAbbr}
                           pct={pct}
                           progressColor={progressColor}
-                          submissionCount={dayData.submissionCount}
-                          totalStudents={dayData.totalStudents}
-                          isComplete={true}
+                          submissionCount={dayData?.submissionCount ?? 0}
+                          totalStudents={dayData?.totalStudents ?? Object.keys(roster).length}
+                          isComplete={isComplete}
                           week={week}
                         />
                       </div>
                     </Link>
                   ) : (
-                    <div className="card flex flex-col sm:flex-row sm:items-center gap-4 opacity-60">
+                    <div className="card flex flex-col sm:flex-row sm:items-center gap-4 opacity-40 grayscale cursor-not-allowed">
                       <MissionCard
                         mission={mission}
                         dayNum={dayNum}
@@ -145,6 +146,7 @@ export default async function ActivitiesPage() {
                         totalStudents={Object.keys(roster).length}
                         isComplete={false}
                         week={week}
+                        isLocked={true}
                       />
                     </div>
                   )}
@@ -169,7 +171,8 @@ interface MissionCardProps {
   submissionCount: number
   totalStudents: number
   isComplete: boolean
-  week: 1 | 2 | 3 | 4
+  week: number
+  isLocked?: boolean
 }
 
 function MissionCard({
@@ -182,14 +185,21 @@ function MissionCard({
   totalStudents,
   isComplete,
   week,
+  isLocked = false,
 }: MissionCardProps) {
-  const weekColors = {
+  const weekColors: Record<number, any> = {
     1: { dot: 'bg-blue-500',   text: 'text-blue-400',   badge: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
     2: { dot: 'bg-brand-500',  text: 'text-brand-400',  badge: 'bg-brand-500/10 text-brand-400 border-brand-500/20' },
     3: { dot: 'bg-purple-500', text: 'text-purple-400', badge: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
     4: { dot: 'bg-green-500',  text: 'text-green-400',  badge: 'bg-green-500/10 text-green-400 border-green-500/20' },
+    5: { dot: 'bg-indigo-500', text: 'text-indigo-400', badge: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' },
+    6: { dot: 'bg-blue-500',   text: 'text-blue-400',   badge: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
+    7: { dot: 'bg-purple-500', text: 'text-purple-400', badge: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
+    8: { dot: 'bg-red-500',    text: 'text-red-400',    badge: 'bg-red-500/10 text-red-400 border-red-500/20' },
+    9: { dot: 'bg-green-500',  text: 'text-green-400',  badge: 'bg-green-500/10 text-green-400 border-green-500/20' },
+    10: { dot: 'bg-yellow-500', text: 'text-yellow-400', badge: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' },
   }
-  const wc = weekColors[week]
+  const wc = weekColors[week] || weekColors[1]
 
   return (
     <>
@@ -218,9 +228,14 @@ function MissionCard({
               ⭐ Special
             </span>
           )}
-          {!isComplete && (
+          {isLocked && (
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">
-              Upcoming
+              🔒 Locked
+            </span>
+          )}
+          {!isComplete && !isLocked && (
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/30">
+              Active Now
             </span>
           )}
         </div>

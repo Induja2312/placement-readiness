@@ -11,7 +11,9 @@ A fully transparent, GitHub-driven leaderboard and submission portal. No databas
 
 📊 **Live Site:** [class.psgmx.tech](https://class.psgmx.tech/)  
 📖 **How to contribute:** [HOW_TO_CONTRIBUTE.md](./HOW_TO_CONTRIBUTE.md)  
-👤 **Owner guide:** [OWNER_GUIDE.md](./docs/OWNER_GUIDE.md)
+
+> [!WARNING]
+> **Strict Rule:** You must ONLY work inside the `activities/` folder. Do not edit, modify, or delete any other files or folders in this repository. Any pull requests that touch other files will be automatically rejected.
 
 ---
 
@@ -20,19 +22,19 @@ A fully transparent, GitHub-driven leaderboard and submission portal. No databas
 <!-- LEADERBOARD:START -->
 | Rank | Student | Roll No | Score | Attendance |
 |------|---------|---------|-------|-----------|
-| 🥇 1 | BARATHVIKRAMAN S K | 25mx103 | 60 | 2/2 (100%) |
-| 🥈 2 | Abishek S | 25mx301 | 60 | 2/2 (100%) |
-| 🥉 3 | ROHITHMAHESHWARAN K | 25mx342 | 45 | 2/2 (100%) |
-| 4 | Shanmugappriya K | 25mx223 | 45 | 2/2 (100%) |
-| 5 | Surya Krishna S | 25mx126 | 45 | 2/2 (100%) |
-| 6 | Radhu Dharsan K M | 25mx341 | 45 | 2/2 (100%) |
-| 7 | STEPHINA SMILY C | 25mx125 | 45 | 2/2 (100%) |
-| 8 | Saravanavel P | 25mx220 | 45 | 2/2 (100%) |
-| 9 | Sweatha A M | 25mx128 | 45 | 2/2 (100%) |
-| 10 | M.R.Siddarth | 25mx346 | 45 | 2/2 (100%) |
+| 🥇 1 | Tino Britty J | 25mx354 | 60 | 3/3 (100%) |
+| 🥈 2 | BARATHVIKRAMAN S K | 25mx103 | 60 | 2/3 (67%) |
+| 🥉 3 | Abishek S | 25mx301 | 60 | 2/3 (67%) |
+| 4 | Tamilini S | 25mx352 | 55 | 3/3 (100%) |
+| 5 | ROHITHMAHESHWARAN K | 25mx342 | 45 | 2/3 (67%) |
+| 6 | Shanmugappriya K | 25mx223 | 45 | 2/3 (67%) |
+| 7 | Surya Krishna S | 25mx126 | 45 | 2/3 (67%) |
+| 8 | Radhu Dharsan K M | 25mx341 | 45 | 2/3 (67%) |
+| 9 | STEPHINA SMILY C | 25mx125 | 45 | 2/3 (67%) |
+| 10 | Saravanavel P | 25mx220 | 45 | 2/3 (67%) |
 
-**🏆 Top Team:** undefined (avg: 45.8 pts)
-**Today's submissions:** 123/123 students submitted on 2026-07-15 · **Last updated:** 2026-07-16
+**🏆 Top Team:** undefined (avg: 46.7 pts)
+**Today's submissions:** 2/123 students submitted on 2026-07-16 · **Last updated:** 2026-07-16
 <!-- LEADERBOARD:END -->
 
 ---
@@ -41,16 +43,15 @@ A fully transparent, GitHub-driven leaderboard and submission portal. No databas
 
 ```
 placement-readiness/
+├── activities/                   ← One folder per day, containing student submissions. YOU ONLY WORK HERE.
 ├── app/                          ← Next.js 14 App Router routes (deployed to Vercel)
 ├── components/                   ← React UI components
 ├── lib/                          ← Data loading logic (data.ts)
-├── activities/                   ← One folder per day, containing student submissions
 ├── data/                         ← The single source of truth for the portal
 │   ├── roster.json               ← Master student list
 │   ├── scoreboard.json           ← All student scores
 │   ├── attendance.json           ← Per-day attendance
 │   └── teams.json                ← Team roster + rollups
-├── docs/                         ← Documentation and guides
 ├── scripts/                      ← Node scripts run by GitHub Actions
 └── .github/workflows/            ← validate-pr.yml, on-merge.yml
 ```
