@@ -78,7 +78,7 @@ jobs:
               
               Your PR did not pass the automatic validation check. Common reasons:
               
-              - **Wrong folder**: You edited files outside your own \`students/${process.env.ROLL}/\` or \`activities/dayXX/${process.env.ROLL}/\` folder.
+              - **Wrong folder**: You edited files outside your own \`students/${process.env.ROLL}/\` or \`activities/YYYY-MM-DD/${process.env.ROLL}/\` folder.
               - **Missing files**: The required \`README.md\`, \`reflection.md\`, or \`prompts.md\` is not in your submission folder.
               - **Empty reflection**: Your \`reflection.md\` is too short. Write a real reflection (minimum 50 characters).
               - **File too large**: A file exceeds the 2 MB limit.

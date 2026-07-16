@@ -57,7 +57,11 @@ jobs:
             echo "No changes to commit — all files already up to date."
           else
             git commit -m "chore: recalculate scores [skip ci]"
-            git push origin main
+            if ! git push origin main; then
+              echo "❌ Failed to push to main. This is likely due to branch protection rules or missing repository permissions."
+              echo "Please ensure the GitHub Actions bot has 'Read and write permissions' in Settings > Actions > General > Workflow permissions."
+              exit 1
+            fi
             echo "✅ Committed and pushed updated files."
           fi
 
